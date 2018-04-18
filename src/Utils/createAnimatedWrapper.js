@@ -132,7 +132,7 @@ const createAnimatedWrapper = (params: Parameters) => {
   //       console.log("\n" + log + "\n");
   //     }
   //   }
-  // }
+  // }  
 
   return nativeAnimatedElement;
 };
