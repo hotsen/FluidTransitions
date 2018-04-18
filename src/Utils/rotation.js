@@ -71,20 +71,6 @@ export const getOriginalRect = (params: GetOriginalRectParameters): Metrics => {
     nh = math.multiply(a, math.subtract(ah, bh));
   }
 
-  // console.log(`COS: ${cos.toNumber()}\n` +
-  //             `SIN: ${sin.toNumber()}\n` +
-  //             `A:   ${a.toNumber()}\n` +
-  //             `w:   ${bwidth.toNumber()}\n` +
-  //             `h:   ${bheight.toNumber()}\n` +
-  //             `aw:  ${aw.toNumber()}\n` +
-  //             `bw:  ${bw.toNumber()}\n` +
-  //             `ah:  ${ah.toNumber()}\n` +
-  //             `bh:  ${bh.toNumber()}\n` +
-  //             `nw:  ${nw.toNumber()}\n` +
-  //             `nh:  ${nh.toNumber()}\n` +
-  //             `qad: ${quad}\n` +
-  //             `is:  ${isEqual}`);
-
   const retVal = {
     x: math.round(math.add(bx, math.multiply(math.subtract(bwidth, math.abs(nw)), 0.5))),
     y: math.round(math.add(by, math.multiply(math.subtract(bheight, math.abs(nh)), 0.5))),
