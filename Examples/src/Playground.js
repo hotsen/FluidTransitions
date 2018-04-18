@@ -8,6 +8,7 @@ import {
   Animated,
   UIManager,
   findNodeHandle,
+  AnimatedInterpolation,
 } from 'react-native';
 
 import { createAnimatedWrapper } from 'react-navigation-fluid-transitions/src/Utils/createAnimatedWrapper';
@@ -96,7 +97,7 @@ export default class Playground extends Component {
           <View style={styles.buttonContainer}>
             <Button title="Back" onPress={() => {}} />
           </View>
-            </View>)}
+        </View>)}
       </View>
     );
   }

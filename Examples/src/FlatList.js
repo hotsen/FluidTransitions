@@ -65,13 +65,8 @@ class DetailsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Transition shared={`image${this.props.navigation.state.params.index}`}>
-          <Image
-            style={styles.largeImage}
-            source={{ uri: this.props.navigation.state.params.item.url }}
-          />
-        </Transition>
-        <Transition appear="bottom">
+
+        <Transition appear="top">
           <View style={styles.bottomContainer}>
             <View style={styles.textContainer}>
               <Text style={styles.caption}>Image URI:</Text>
@@ -81,6 +76,12 @@ class DetailsScreen extends React.Component {
               <Text>Back</Text>
             </TouchableOpacity>
           </View>
+        </Transition>
+        <Transition shared={`image${this.props.navigation.state.params.index}`}>
+          <Image
+            style={styles.largeImage}
+            source={{ uri: this.props.navigation.state.params.item.url }}
+          />
         </Transition>
       </View>
     );
@@ -97,10 +98,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECECEC',
     borderColor: '#CCC',
     borderWidth: StyleSheet.hairlineWidth,
-    shadowColor: '#EEE',
+    shadowColor: '#666',
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.4,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
     flexDirection: 'row',
     elevation: 3,
   },
