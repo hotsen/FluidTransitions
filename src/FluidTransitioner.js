@@ -138,7 +138,8 @@ class FluidTransitioner extends React.Component<*> {
     return (
       <TransitionItemsView
         navigation={this.props.navigation}
-        progress={props.position}
+        position={props.position}
+        progress={props.progress}
         fromRoute={fromRoute}
         toRoute={toRoute}
         index={index}
