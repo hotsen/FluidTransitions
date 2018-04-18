@@ -20,7 +20,7 @@ class ListScreen extends React.Component {
   }
   componentDidMount() {
     const items = [];
-    const size = 80;
+    const size = Dimensions.get('window').width;
     const max = 40;
     const randMax = 100;
     for (let i = 0; i < max; i++) {
