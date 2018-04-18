@@ -10,14 +10,6 @@ import { createAnimatedWrapper, createAnimated, getRotationFromStyle } from './U
 const uniqueBaseId: string = `tcid-${Date.now()}`;
 let uuidCount: number = 0;
 
-const styles = StyleSheet.create({
-  transition: {
-    // backgroundColor: '#0000EF22',
-    // borderColor: '#FF0000',
-    // borderWidth: 1,
-  },
-});
-
 type TransitionProps = {
   appear: ?boolean,
   disappear: ?boolean,
@@ -32,7 +24,7 @@ class Transition extends React.Component<TransitionProps> {
     register: PropTypes.func,
     unregister: PropTypes.func,
     route: PropTypes.string,
-    getVisibilityProgress: PropTypes.func,    
+    getVisibilityProgressForItem: PropTypes.func,
   }
 
   constructor(props: TransitionProps, context: any) {
@@ -112,19 +104,24 @@ class Transition extends React.Component<TransitionProps> {
   }
 
   getVisibilityStyle() {
-    const { getVisibilityProgress } = this.context;
-    if (!getVisibilityProgress) return {};
-
-    const progress = getVisibilityProgress(this._getName(), this._route);
-    if (!progress) return { opacity: 0 };
+    const { getVisibilityProgressForItem } = this.context;
+    if (!getVisibilityProgressForItem) return { };
+    const progress = getVisibilityProgressForItem(this._getName(), this._route);
 
     return { opacity: progress.interpolate({
         inputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_INPUT_RANGE,
         outputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_OUTPUT_RANGE,
-        extrapolation: 'clamp',
       }) 
     };
   }  
 }
+
+const styles = StyleSheet.create({
+  transition: {
+    // backgroundColor: '#0000EF22',
+    // borderColor: '#FF0000',
+    // borderWidth: 1,
+  },
+});
 
 export default Transition;

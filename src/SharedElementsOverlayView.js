@@ -109,11 +109,14 @@ class SharedElementsOverlayView extends React.Component<SharedElementsOverlayVie
       const animationStyle = transitionStyles.styles;
       const nativeAnimationStyle = [transitionStyles.nativeStyles];
       const overrideStyles = {
+        // backgroundColor: '#00FF0022',
+        // borderColor: '#00FF00',
+        // borderWidth: 1,
         position: 'absolute',
         left: fromItem.metrics.x,
         top: fromItem.metrics.y,
         width: fromItem.metrics.width,
-        height: fromItem.metrics.height,        
+        height: fromItem.metrics.height,
       };
 
       element = React.createElement(element.type, { ...element.props, key });
@@ -234,19 +237,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  sharedElement: {
-    position: 'absolute',
-    // backgroundColor: '#00FF0022',
-    // borderColor: '#00FF00',
-    // borderWidth: 1,
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    padding: 0,
-    margin: 0,
-  },
+  }
 });
 
 

@@ -58,21 +58,12 @@ class TransitionOverlayView extends React.Component<TransitionOverlayViewProps> 
   }
 
   getVisibilityStyle() {
-    const { getTransitionProgress } = this.context;
-    const { index, direction } = this.props;
-
-    if (!getTransitionProgress) return {};
-    const progress = getTransitionProgress();
-    if (!progress || index === undefined) return { opacity: 0 };
-
-    const visibility = progress.interpolate({
-      inputRange: direction === NavigationDirection.forward ?
-        [index - 1, index] : [index, index + 1],
-      outputRange: direction === NavigationDirection.forward ? [0, 1] : [1, 0],
-    });
-
+    const { getVisibilityProgress } = this.context;
+    if (!getVisibilityProgress) return { };
+    const progress = getVisibilityProgress();
+    
     return {
-      opacity: visibility.interpolate({
+      opacity: progress.interpolate({
         inputRange: Constants.OVERLAY_VIEWS_VISIBILITY_INPUT_RANGE,
         outputRange: Constants.OVERLAY_VIEWS_VISIBILITY_OUTPUT_RANGE,
       }),
@@ -88,7 +79,7 @@ class TransitionOverlayView extends React.Component<TransitionOverlayViewProps> 
   }
 
   static contextTypes = {
-    getTransitionProgress: PropTypes.func,
+    getVisibilityProgress: PropTypes.func,
   }
 }
 

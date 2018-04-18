@@ -61,6 +61,7 @@ export default class TransitionItemsView extends React.Component<
     this.getTransitionProgress = this.getTransitionProgress.bind(this);
     this.getRoutes = this.getRoutes.bind(this);
     this.getVisibilityProgress = this.getVisibilityProgress.bind(this);
+    this.getVisibilityProgressForItem = this.getVisibilityProgressForItem.bind(this);
   }
 
   _viewRef: ?View;
@@ -140,17 +141,21 @@ export default class TransitionItemsView extends React.Component<
         value: this._nonNativeTransitionPosition }],
         { useNativeDriver: false }));
     }
-    return this._nonNativeTransitionPosition;    
+    return this._nonNativeTransitionPosition;
   }
 
   getRoutes() {
     return [this.state.fromRoute, this.state.toRoute].filter(r => r !== null);
   }
 
-  getVisibilityProgress(name: string, route: string) {
+  getVisibilityProgressForItem(name: string, route: string) {
     const item = this._transitionItems.getItemByNameAndRoute(name, route);
     if (!item) return new Animated.Value(1);
     return item.visibilityProgress;
+  }
+
+  getVisibilityProgress() {
+    return this._transitionProgress;
   }
 
   getIsPartOfSharedTransition(name: string, route: string) {
@@ -324,6 +329,7 @@ export default class TransitionItemsView extends React.Component<
     getIsPartOfSharedTransition: PropTypes.func,
     getRoutes: PropTypes.func,
     getVisibilityProgress: PropTypes.func,
+    getVisibilityProgressForItem: PropTypes.func,
   }
 
   static contextTypes = {
@@ -335,6 +341,7 @@ export default class TransitionItemsView extends React.Component<
       register: (item) => this._transitionItems.add(item),
       unregister: (name, route) => this._transitionItems.remove(name, route),
       getTransitionProgress: this.getTransitionProgress,
+      getVisibilityProgressForItem: this.getVisibilityProgressForItem,
       getVisibilityProgress: this.getVisibilityProgress,
       getDirectionForRoute: this.getDirectionForRoute.bind(this),
       getIndex: () => this.state.index,
