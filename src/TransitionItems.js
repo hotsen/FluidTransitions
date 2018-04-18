@@ -1,5 +1,5 @@
 
-import { UIManager } from 'react-native';
+import { Animated, UIManager } from 'react-native';
 import TransitionItem from './TransitionItem';
 
 export default class TransitionItems {
@@ -28,6 +28,20 @@ export default class TransitionItems {
       return true;
     }
     return false;
+  }
+
+  removeVisibilityListeners(progress: Animated) { 
+    this._items.forEach(item => {
+      if(item.listener) {
+        progress.removeListener(item.listener);
+        // item.visibilityProgress.setValue(1);
+        item.listener = null;
+      }
+    });
+  };
+
+  addVisibilityListener(progress: Animated, item: TransitionItem) {
+    item.listener = progress.addListener(Animated.event([{value: item.visibilityProgress }]));
   }
 
   getRoutes() {

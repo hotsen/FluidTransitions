@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Animated, Platform } from 'react-native';
 import { Metrics } from './Types/Metrics';
 import { getRotationFromStyle, getOriginalRect } from './Utils';
 
@@ -21,6 +21,7 @@ export default class TransitionItem {
     this.appear = appear;
     this.disappear = disappear;
     this.delay = delay;
+    this.visibilityProgress = new Animated.Value(1);
   }
 
   name: string
@@ -33,6 +34,7 @@ export default class TransitionItem {
   delay: boolean
   layoutReady: boolean
   flattenedStyle: ?any
+  visibilityProgress: Animated
 
   getNodeHandle() {
     return this.reactElement.getNodeHandle();
