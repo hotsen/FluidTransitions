@@ -32,11 +32,7 @@ class Transition extends React.Component<TransitionProps> {
     register: PropTypes.func,
     unregister: PropTypes.func,
     route: PropTypes.string,
-    getTransitionProgress: PropTypes.func,
-    getDirectionForRoute: PropTypes.func,
-    getDirection: PropTypes.func,
-    getIndex: PropTypes.func,
-    getIsPartOfSharedTransition: PropTypes.func,
+    getVisibilityProgress: PropTypes.func,    
   }
 
   constructor(props: TransitionProps, context: any) {
@@ -92,7 +88,7 @@ class Transition extends React.Component<TransitionProps> {
 
   render() {
     let element = React.Children.only(this.props.children);
-    if (!element) { return null; }
+    if (!element) { return null; }    
 
     if (!this._animatedComponent) { this._animatedComponent = createAnimated(); }
     if (!this._outerAnimatedComponent) { this._outerAnimatedComponent = createAnimated(); }
@@ -116,51 +112,19 @@ class Transition extends React.Component<TransitionProps> {
   }
 
   getVisibilityStyle() {
-    const { getTransitionProgress, getDirectionForRoute,
-      getIndex, getDirection, getIsPartOfSharedTransition } = this.context;
+    const { getVisibilityProgress } = this.context;
+    if (!getVisibilityProgress) return {};
 
-    if (!getTransitionProgress || !getDirectionForRoute ||
-      !getIndex || !getDirection || !getIsPartOfSharedTransition) return {};
+    const progress = getVisibilityProgress(this._getName(), this._route);
+    if (!progress) return { opacity: 0 };
 
-    const progress = getTransitionProgress();
-    const index = getIndex();
-    const direction = getDirection();
-    if (!progress || index === undefined) return { opacity: 0 };
-
-    const routeDirection = getDirectionForRoute(this._getName(), this._route);
-    if (routeDirection === RouteDirection.unknown) return { opacity: 0 };
-
-    const inputRange = direction === NavigationDirection.forward ?
-      [index - 1, index] : [index, index + 1];
-
-    const outputRange = routeDirection === RouteDirection.to ? [0, 1] : [1, 0];
-
-    const visibilityProgress = progress.interpolate({ inputRange, outputRange });
-
-    if (this.props.shared && this.props.appear === undefined) {
-      if (getIsPartOfSharedTransition(this._getName(), this._route)) {
-        return { opacity: visibilityProgress.interpolate({
-          inputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_INPUT_RANGE_ANIM_OUT,
-          outputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_OUTPUT_RANGE_ANIM_OUT,
-        }),
-        };
-      }
-      return {};
-    } else if (this.props.appear !== undefined || this.props.disappear !== undefined) {
-      return { opacity: visibilityProgress.interpolate({
-        inputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_INPUT_RANGE_ANIM_OUT,
-        outputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_OUTPUT_RANGE_ANIM_OUT,
-      }) };
-    }
-    return {};
-
-
-    return { opacity: visibilityProgress.interpolate({
-      inputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_INPUT_RANGE_ANIM_OUT,
-      outputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_OUTPUT_RANGE_ANIM_OUT,
-    }),
+    return { opacity: progress.interpolate({
+        inputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_INPUT_RANGE,
+        outputRange: Constants.ORIGINAL_VIEWS_VISIBILITY_OUTPUT_RANGE,
+        extrapolation: 'clamp',
+      }) 
     };
-  }
+  }  
 }
 
 export default Transition;
