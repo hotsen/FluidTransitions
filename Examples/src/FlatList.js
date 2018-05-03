@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -147,6 +147,13 @@ const Navigator = FluidNavigator({
   },
 });
 
-export default () => (
-  <Navigator />
-);
+class FlatListScreen extends React.Component {
+  static router = Navigator.router;
+  render() {
+    return (
+      <Navigator navigation={this.props.navigation} />
+    );
+  }
+}
+
+export default FlatListScreen;
